@@ -1,40 +1,55 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react'
 import Footer from '../components/Footer'
 import Nav from '../components/Nav'
 import { useEffect, useState } from 'react'
 import {Link} from "react-router-dom"
+import Card from '../components/Card'
 
 function Vans() {
     const [vanData, setVanData]= useState([]);
-    useEffect(()=>{
-       fetch( "http://localhost:4000/vans")
-       .then(res => res.json())
-       .then(data => setVanData(data))
-       console.log(vanData);
-    },[])
+    const fetchData = async () => {
+      const response = await fetch( "https://json-mock-czwb.onrender.com/vans")
+      const data = await response.json()
+          setVanData(data)
     
+      
+    }
+
+    useEffect(() => {
+      fetchData()
+       
+    }, [])
+    
+
+    var classHolder;
     return (
         <div>
             <Nav/>
             <section className='van-container'>
+            <h2 className='van-page-title'>Explore Our Van Options</h2>
+            <div className='filter-container'>
+             <Link to="/vans/filter/simple"> Simple</Link>
+             <Link  to="/vans/filter/rugged"> Rugged</Link>
+             <Link  to="/vans/filter/luxury">Luxury</Link>
+             <Link to="/vans">Clear Filter</Link>
+            </div>
                 <div className='van-holder'>
-              {
-            vanData.map((van)=>{
-               return <div className='van-card'>
-                      <img src={van.imageUrl} alt="nothing-here"/>
-                      <div className='van-id'>
-                        <div className='van-but'>
-                        <h2>{van.name}</h2>
-                        <p>${van.price}<p>/day</p></p>
-                        </div>
-                        <br/>
-                        <Link>{van.type}</Link>
-                      </div>
-
-                      </div>
                
+              {vanData.map((van)=>{
+             
+              if (van.type==="simple"){
+                    classHolder = "orange"
+              }else if(van.type==="rugged"){
+                  classHolder= "green"
+              }else{
+                  classHolder="black";
+              }
+               return <Card key={van.id} van={van} classHolder={classHolder}/>
+                 
             })
               }
+             
               </div>
             </section>
             <Footer/>
