@@ -29,7 +29,7 @@ function Card( {van, classHolder}) {
                         {price &&<p>${price} <p>/day</p></p> }{!price && <Skeleton count={1} width="100%" />}
                         </div>
                         <br/>
-                      {type && <p className={classHolder} > <Link to={"/vans/"+van.id}>{van.type}</Link></p>}{!type && <Skeleton count={1} width="100px" height="40px" />} 
+                      {type && <p className={classHolder} > <Link to={"/vans/"+van.idl}>{van.type}</Link></p>}{!type && <Skeleton count={1} width="100px" height="40px" />} 
                       </div>
 
                       </div>
